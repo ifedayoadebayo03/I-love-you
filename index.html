@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feranmi's Galaxy 💜</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Orbitron:wght@400;700&family=Cinzel:wght@400;700&family=Great+Vibes&family=Allura&family=Dancing+Script:wght@400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Satisfy&family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cosmic-pink: #ff2d95;
+            --neon-purple: #b026ff;
+            --star-gold: #ffd700;
+            --deep-space: #050010;
+            --lavender-mist: #e6e6fa;
+            --rose-gold: #ff6b8a;
+            --soft-pink: #ffb6c1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--deep-space);
+            color: var(--lavender-mist);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            width: 100vw;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body.intro-active {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* ==================== ENHANCED 3D BACKGROUND ==================== */
+        #universe-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        /* Animated nebula overlay */
+        .nebula-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(255, 45, 149, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 70%, rgba(176, 38, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 107, 138, 0.1) 0%, transparent 60%);
+            animation: nebulaShift 20s ease-in-out infinite;
+        }
+
+        @keyframes nebulaShift {
+            0%, 100% { 
+                transform: scale(1) rotate(0deg); 
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.1) rotate(5deg); 
+                opacity: 0.9;
+            }
+        }
+
+        /* Shooting stars */
+        .shooting-star {
+            position: fixed;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #fff, transparent);
+            opacity: 0;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px #fff);
+        }
+
+        @keyframes shoot {
+            0% { 
+                transform: translateX(-100px) translateY(100px) rotate(-45deg); 
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateX(100vw) translateY(-100vh) rotate(-45deg); 
+                opacity: 0;
+            }
+        }
+
+        /* ==================== INTRO - SAME AS BEFORE ==================== */
+        #intro-scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        
+        #intro-scene > * {
+            pointer-events: auto;
+        }
+
+        .galaxy-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3.5rem, 10vw, 7rem);
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, #fff 0%, #ff6b8a 30%, #ff2d95 60%, #b026ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleFloat 6s ease-in-out infinite;
+            position: relative;
+            margin-bottom: 20px;
+            text-align: center;
+            filter: drop-shadow(0 0 40px rgba(255, 45, 149, 0.6));
+        }
+
+        .galaxy-title::after {
+            content: '💜';
+            position: absolute;
+            right: -70px;
+            top: 10px;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            font-size: 0.4em;
+            -webkit-text-fill-color: var(--rose-gold);
+        }
+
+        .galaxy-title::before {
+            content: '💜';
+            position: absolute;
+            left: -70px;
+            top: 10px;
+            animation: heartbeat 1.5s ease-in-out infinite 0.3s;
+            font-size: 0.4em;
+            -webkit-text-fill-color: var(--rose-gold);
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .cosmic-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            color: var(--soft-pink);
+            opacity: 0.95;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255, 182, 193, 0.8);
+            margin-bottom: 60px;
+            animation: fadeInUp 2s ease-out;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .launch-pad {
+            position: relative;
+            margin-top: 40px;
+            perspective: 1000px;
+            z-index: 100;
+            pointer-events: auto;
+        }
+
+        #explore-btn {
+            position: relative;
+            padding: 22px 50px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+            background: transparent;
+            border: 2px solid var(--rose-gold);
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            z-index: 100;
+            box-shadow: 
+                0 0 30px rgba(255, 107, 138, 0.4),
+                inset 0 0 30px rgba(255, 107, 138, 0.1);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            pointer-events: auto;
+        }
+
+        #explore-btn::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                var(--rose-gold), 
+                var(--cosmic-pink), 
+                var(--neon-purple), 
+                var(--rose-gold),
+                var(--soft-pink));
+            background-size: 400%;
+            border-radius: 50px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            animation: neonFlow 3s linear infinite;
+            filter: blur(10px);
+        }
+
+        #explore-btn:hover::before {
+            opacity: 1;
+        }
+
+        .rocket-flame {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 40px;
+            background: linear-gradient(to bottom, #ff6b35, transparent);
+            border-radius: 50%;
+            opacity: 0;
+            filter: blur(8px);
+            transition: opacity 0.3s;
+        }
+
+        .rocket-sparks {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 60px;
+            pointer-events: none;
+        }
+
+        .spark {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--star-gold);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        #explore-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 0 50px rgba(255, 107, 138, 0.8),
+                0 0 100px rgba(176, 38, 255, 0.4),
+                inset 0 0 40px rgba(255, 107, 138, 0.2);
+            border-color: var(--soft-pink);
+        }
+
+        #explore-btn:hover .rocket-flame {
+            opacity: 1;
+            animation: flicker 0.1s infinite;
+        }
+
+        #explore-btn.blasting {
+            animation: blastOff 1.5s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(0.5deg); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 0.95; transform: translateY(0); }
+        }
+
+        @keyframes neonFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes flicker {
+            0%, 100% { transform: translateX(-50%) scaleY(1); opacity: 0.8; }
+            50% { transform: translateX(-50%) scaleY(1.3); opacity: 1; }
+        }
+
+        @keyframes blastOff {
+            0% { transform: translateY(0) scale(1); }
+            20% { transform: translateY(10px) scale(0.95); }
+            40% { transform: translateY(-20px) scale(1.1); }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+
+        .floating-heart {
+            position: fixed;
+            font-size: 1.8rem;
+            opacity: 0.3;
+            animation: floatUp 12s infinite linear;
+            pointer-events: none;
+            z-index: 3;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 138, 0.4));
+        }
+
+        @keyframes floatUp {
+            from { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            to { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        #warp-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #fff 0%, var(--rose-gold) 30%, var(--deep-space) 100%);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+            transition: opacity 0.5s;
+        }
+
+        #warp-overlay.active {
+            opacity: 1;
+            animation: warpSpeed 1s forwards;
+        }
+
+        @keyframes warpSpeed {
+            0% { transform: scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        #main-content {
+            display: none;
+            position: relative;
+            width: 100%;
+            z-index: 20;
+            overflow-x: hidden;
+        }
+
+        /* ==================== ROMANTIC LOVE TIMER SECTION ==================== */
+        .love-timer-section {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at center, rgba(255, 45, 149, 0.08) 0%, transparent 70%);
+        }
+
+        .love-timer-header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1s ease;
+        }
+
+        .love-timer-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .love-timer-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            background: linear-gradient(135deg, #fff, var(--soft-pink), var(--rose-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 138, 0.5));
+            animation: gentleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes gentleGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 107, 138, 0.4)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 107, 138, 0.7)); }
+        }
+
+        .love-timer-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--soft-pink);
+            opacity: 0.9;
+            letter-spacing: 1px;
+        }
+
+        .love-timer-container {
+            background: rgba(20, 0, 40, 0.4);
+            border: 1px solid rgba(255, 107, 138, 0.3);
+            border-radius: 30px;
+            padding: 50px 70px;
+            backdrop-filter: blur(20px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.4),
+                0 0 80px rgba(255, 45, 149, 0.15),
+                inset 0 0 40px rgba(255, 107, 138, 0.05);
+            opacity: 0;
+            transform: scale(0.9) translateY(30px);
+            transition: all 1s ease 0.3s;
+        }
+
+        .love-timer-container.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .love-timer-date {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+            color: var(--star-gold);
+            text-align: center;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .love-timer-display {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .love-time-unit {
+            text-align: center;
+            position: relative;
+            padding: 20px 25px;
+            background: rgba(255, 107, 138, 0.08);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 138, 0.2);
+            min-width: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .love-time-unit:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 107, 138, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 138, 0.15);
+        }
+
+        .love-time-value {
+            display: block;
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            color: #fff;
+            text-shadow: 
+                0 0 20px rgba(255, 107, 138, 0.8),
+                0 0 40px rgba(255, 107, 138, 0.4);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+            animation: numberPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { text-shadow: 0 0 20px rgba(255, 107, 138, 0.6), 0 0 40px rgba(255, 107, 138, 0.3); }
+            50% { text-shadow: 0 0 30px rgba(255, 107, 138, 0.9), 0 0 60px rgba(255, 107, 138, 0.5); }
+        }
+
+        .love-time-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.75rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--soft-pink);
+        }
+
+        .love-timer-quote {
+            margin-top: 40px;
+            font-family: 'Satisfy', cursive;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: rgba(255, 182, 193, 0.8);
+            text-align: center;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease 0.6s;
+        }
+
+        .love-timer-quote.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .love-timer-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .timer-heart {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0;
+            animation: floatTimerHeart 8s ease-in-out infinite;
+        }
+
+        @keyframes floatTimerHeart {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(0.5); }
+            50% { opacity: 0.4; }
+            80% { opacity: 0; transform: translateY(-100px) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .love-timer-container {
+                padding: 35px 25px;
+            }
+            .love-timer-display {
+                gap: 15px;
+            }
+            .love-time-unit {
+                min-width: 70px;
+                padding: 15px 12px;
+            }
+        }
+
+        /* ==================== HEART-SHAPED GALLERY ==================== */
+        .cosmic-gallery {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            padding: 80px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: transparent;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .gallery-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            background: linear-gradient(135deg, #fff, var(--soft-pink), var(--star-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 25px rgba(255, 107, 138, 0.4));
+        }
+
+        .gallery-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            color: rgba(230, 230, 250, 0.7);
+        }
+
+        /* Heart-shaped constellation */
+        .heart-constellation {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 700px;
+            margin: 0 auto;
+        }
+
+        .heart-photo {
+            position: absolute;
+            width: 140px;
+            height: 180px;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 15px 50px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(255, 107, 138, 0.15);
+            border: 2px solid rgba(255, 107, 138, 0.3);
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .heart-photo.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Heart shape positioning - Left side (Feranmi) */
+        .heart-photo:nth-child(1) { /* Top left curve */
+            top: 5%;
+            left: 25%;
+            transform: rotate(-15deg);
+            transition-delay: 0.1s;
+        }
+        .heart-photo:nth-child(2) { /* Upper left */
+            top: 20%;
+            left: 12%;
+            transform: rotate(-10deg);
+            transition-delay: 0.2s;
+        }
+        .heart-photo:nth-child(3) { /* Mid left */
+            top: 42%;
+            left: 8%;
+            transform: rotate(-5deg);
+            transition-delay: 0.3s;
+        }
+        .heart-photo:nth-child(4) { /* Lower left */
+            top: 65%;
+            left: 18%;
+            transform: rotate(5deg);
+            transition-delay: 0.4s;
+        }
+
+        /* Heart shape positioning - Right side (You) */
+        .heart-photo:nth-child(5) { /* Top right curve */
+            top: 5%;
+            right: 25%;
+            transform: rotate(15deg);
+            transition-delay: 0.5s;
+        }
+        .heart-photo:nth-child(6) { /* Upper right */
+            top: 20%;
+            right: 12%;
+            transform: rotate(10deg);
+            transition-delay: 0.6s;
+        }
+        .heart-photo:nth-child(7) { /* Mid right */
+            top: 42%;
+            right: 8%;
+            transform: rotate(5deg);
+            transition-delay: 0.7s;
+        }
+        .heart-photo:nth-child(8) { /* Lower right */
+            top: 65%;
+            right: 18%;
+            transform: rotate(-5deg);
+            transition-delay: 0.8s;
+        }
+
+        .heart-photo::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--rose-gold), var(--cosmic-pink), var(--soft-pink));
+            background-size: 300% 300%;
+            border-radius: 22px;
+            z-index: -1;
+            opacity: 0;
+            animation: gradientShift 3s ease infinite;
+            filter: blur(15px);
+            transition: opacity 0.4s ease;
+        }
+
+        .heart-photo:hover::before {
+            opacity: 0.8;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .heart-photo:hover {
+            transform: scale(1.15) rotate(0deg) translateY(-10px) !important;
+            box-shadow: 
+                0 30px 80px rgba(255, 107, 138, 0.5),
+                0 0 60px rgba(255, 45, 149, 0.3);
+            border-color: rgba(255, 107, 138, 0.6);
+            z-index: 10;
+        }
+
+        .heart-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .heart-photo:hover img {
+            transform: scale(1.15);
+        }
+
+        .heart-photo-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 15px;
+            background: linear-gradient(to top, rgba(5, 0, 10, 0.95), transparent);
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .heart-photo:hover .heart-photo-label {
+            transform: translateY(0);
+        }
+
+        .heart-photo-label h3 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.1rem;
+            color: var(--star-gold);
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .heart-photo-label p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.85rem;
+            color: var(--lavender-mist);
+            opacity: 0.9;
+        }
+
+        /* Center Heart - Open My Heart */
+        .center-heart-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+        }
+
+        .open-heart {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            cursor: pointer;
+            animation: heartFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .open-heart-core {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 107, 138, 0.9) 0%, rgba(255, 45, 149, 0.6) 50%, rgba(176, 38, 255, 0.3) 70%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+            animation: centerHeartPulse 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 50px rgba(255, 107, 138, 0.8));
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(255, 182, 193, 0.3);
+        }
+
+        .open-heart:hover .open-heart-core {
+            transform: scale(1.1);
+        }
+
+        @keyframes centerHeartPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 40px rgba(255, 107, 138, 0.8)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 80px rgba(255, 107, 138, 1)); }
+        }
+
+        .open-heart-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 107, 138, 0.4);
+            border-radius: 50%;
+        }
+
+        .open-heart-ring:nth-child(1) { width: 230px; height: 230px; animation: ringPulse 3s ease-out infinite; }
+        .open-heart-ring:nth-child(2) { width: 280px; height: 280px; animation: ringPulse 3s ease-out infinite 0.7s; }
+        .open-heart-ring:nth-child(3) { width: 330px; height: 330px; animation: ringPulse 3s ease-out infinite 1.4s; }
+
+        @keyframes ringPulse {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.6; }
+            100% { transform: translate(-50%, -50%) scale(1.4); opacity: 0; }
+        }
+
+        .open-heart-text {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 25px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: var(--star-gold);
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+            white-space: nowrap;
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Connection lines between photos and heart */
+        .heart-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .connection-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 138, 0.4), transparent);
+            transform-origin: left center;
+            opacity: 0;
+            animation: fadeInLine 1s ease forwards;
+        }
+
+        @keyframes fadeInLine {
+            to { opacity: 0.6; }
+        }
+
+        @media (max-width: 768px) {
+            .heart-constellation {
+                height: 600px;
+                max-width: 500px;
+            }
+            .heart-photo {
+                width: 90px;
+                height: 120px;
+            }
+            .heart-photo:nth-child(1) { top: 3%; left: 20%; }
+            .heart-photo:nth-child(2) { top: 18%; left: 5%; }
+            .heart-photo:nth-child(3) { top: 40%; left: 2%; }
+            .heart-photo:nth-child(4) { top: 62%; left: 12%; }
+            .heart-photo:nth-child(5) { top: 3%; right: 20%; }
+            .heart-photo:nth-child(6) { top: 18%; right: 5%; }
+            .heart-photo:nth-child(7) { top: 40%; right: 2%; }
+            .heart-photo:nth-child(8) { top: 62%; right: 12%; }
+            .open-heart {
+                width: 120px;
+                height: 120px;
+            }
+            .open-heart-core {
+                font-size: 2.5rem;
+            }
+            .open-heart-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        /* ==================== VAULT MODAL ==================== */
+        #vault-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(5, 0, 10, 0.98);
+            backdrop-filter: blur(30px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #vault-overlay.active {
+            display: flex;
+        }
+
+        .vault-container {
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            background: linear-gradient(135deg, 
+                rgba(60, 0, 40, 0.95), 
+                rgba(30, 0, 30, 0.98));
+            border: 2px solid rgba(255, 107, 138, 0.4);
+            border-radius: 30px;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            box-shadow: 
+                0 0 100px rgba(255, 107, 138, 0.4),
+                inset 0 0 60px rgba(255, 45, 149, 0.1);
+            animation: vaultAppear 0.5s ease;
+            overflow-y: auto;
+        }
+
+        @keyframes vaultAppear {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .vault-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            color: #fff;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(255, 107, 138, 0.5);
+        }
+
+        .vault-message {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.2vw, 1.35rem);
+            color: var(--lavender-mist);
+            line-height: 2;
+            letter-spacing: 0.5px;
+            margin-bottom: 30px;
+        }
+
+        .vault-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid rgba(255, 107, 138, 0.4);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .vault-close:hover {
+            background: rgba(255, 107, 138, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* ==================== PHOTO MODAL ==================== */
+        #photo-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(30px);
+            z-index: 9998;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #photo-modal.active {
+            display: flex;
+        }
+
+        .photo-modal-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            max-width: 600px;
+            animation: photoModalIn 0.4s ease;
+        }
+
+        @keyframes photoModalIn {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .photo-modal-img {
+            max-width: 85vw;
+            max-height: 60vh;
+            border-radius: 20px;
+            box-shadow: 0 30px 80px rgba(255, 107, 138, 0.4);
+        }
+
+        .photo-modal-message {
+            background: rgba(255, 107, 138, 0.12);
+            border: 1px solid rgba(255, 107, 138, 0.3);
+            border-radius: 20px;
+            padding: 25px 35px;
+            text-align: center;
+        }
+
+        .photo-modal-message h3 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .photo-modal-message p {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2rem;
+            color: var(--star-gold);
+        }
+
+        .photo-modal-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            border: 2px solid rgba(255, 107, 138, 0.4);
+            color: #fff;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .photo-modal-close:hover {
+            background: rgba(255, 107, 138, 0.3);
+            transform: rotate(90deg);
+        }
+
+        /* ==================== TIMELINE ==================== */
+        .timeline-section {
+            width: 100%;
+            padding: 80px 20px;
+            background: transparent;
+            position: relative;
+        }
+
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2rem, 4.5vw, 3rem);
+            color: var(--star-gold);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-subtitle {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1rem;
+            color: rgba(230, 230, 250, 0.6);
+        }
+
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                transparent, 
+                rgba(255, 107, 138, 0.4), 
+                rgba(255, 215, 0, 0.4), 
+                transparent);
+        }
+
+        .timeline-node {
+            position: relative;
+            margin: 40px 0;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .timeline-node.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-node:nth-child(odd) {
+            text-align: right;
+            padding-right: calc(50% + 50px);
+        }
+
+        .timeline-node:nth-child(even) {
+            text-align: left;
+            padding-left: calc(50% + 50px);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 18px;
+            height: 18px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 25px var(--rose-gold);
+            z-index: 10;
+        }
+
+        .timeline-content {
+            background: rgba(30, 0, 25, 0.5);
+            border: 1px solid rgba(255, 107, 138, 0.25);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: rgba(255, 107, 138, 0.5);
+            box-shadow: 0 15px 50px rgba(255, 107, 138, 0.12);
+            transform: translateY(-5px);
+        }
+
+        .timeline-date {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.7rem;
+            color: var(--star-gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .timeline-heading {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .timeline-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.05rem;
+            color: rgba(230, 230, 250, 0.85);
+            line-height: 1.7;
+        }
+
+        .timeline-ending {
+            text-align: center;
+            margin-top: 60px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2rem;
+            color: var(--rose-gold);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-ending.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==================== MUSIC CONTROL ==================== */
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 1000;
+            background: rgba(20, 0, 20, 0.7);
+            border: 2px solid var(--rose-gold);
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(255, 107, 138, 0.2);
+        }
+
+        .music-control:hover {
+            background: var(--rose-gold);
+            transform: scale(1.15);
+            box-shadow: 0 0 40px rgba(255, 107, 138, 0.5);
+        }
+
+        /* ==================== MOBILE ==================== */
+        @media (max-width: 768px) {
+            .timeline-node:nth-child(odd),
+            .timeline-node:nth-child(even) {
+                text-align: center;
+                padding: 0 20px;
+                margin-left: 30px;
+            }
+
+            .timeline::before {
+                left: 0;
+            }
+
+            .timeline-dot {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="intro-active">
+
+    <!-- Background -->
+    <canvas id="universe-canvas"></canvas>
+    <div class="nebula-overlay"></div>
+
+    <!-- Intro -->
+    <div id="intro-scene">
+        <h1 class="galaxy-title">Feranmi's Galaxy</h1>
+        <p class="cosmic-subtitle">To the one who brought light to my world</p>
+        
+        <div class="launch-pad">
+            <button id="explore-btn">
+                <span class="btn-text">Enter Our Love Story</span>
+                <div class="rocket-flame"></div>
+                <div class="rocket-sparks"></div>
+                <div class="button-stars"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Warp -->
+    <div id="warp-overlay"></div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        
+        <!-- Romantic Love Timer Section -->
+        <section class="love-timer-section">
+            <div class="love-timer-hearts" id="timer-hearts"></div>
+            
+            <div class="love-timer-header" id="love-timer-header">
+                <h2 class="love-timer-title">Our Love Story Began</h2>
+                <p class="love-timer-subtitle">Every moment with you is a treasure I hold dear</p>
+            </div>
+            
+            <div class="love-timer-container" id="love-timer-container">
+                <div class="love-timer-date">✨ December 6th, 2024 ✨</div>
+                <div class="love-timer-display">
+                    <div class="love-time-unit">
+                        <span class="love-time-value" id="love-days">00</span>
+                        <span class="love-time-label">Days</span>
+                    </div>
+                    <div class="love-time-unit">
+                        <span class="love-time-value" id="love-hours">00</span>
+                        <span class="love-time-label">Hours</span>
+                    </div>
+                    <div class="love-time-unit">
+                        <span class="love-time-value" id="love-minutes">00</span>
+                        <span class="love-time-label">Minutes</span>
+                    </div>
+                    <div class="love-time-unit">
+                        <span class="love-time-value" id="love-seconds">00</span>
+                        <span class="love-time-label">Seconds</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="love-timer-quote" id="love-timer-quote">
+                "In all the world, there is no heart for me like yours.<br>In all the world, there is no love for you like mine." 💜
+            </div>
+        </section>
+
+        <!-- Heart-Shaped Gallery -->
+        <section class="cosmic-gallery">
+            <div class="gallery-header" id="gallery-header">
+                <h2 class="gallery-title">A Galaxy of Memories</h2>
+                <p class="gallery-subtitle">Each photo a star in the constellation of our love</p>
+            </div>
+            
+            <div class="heart-constellation" id="heart-constellation">
+                <!-- Photos will be arranged in heart shape -->
+                <!-- Left side - Feranmi's photos -->
+                <div class="heart-photo" data-side="left"></div>
+                <div class="heart-photo" data-side="left"></div>
+                <div class="heart-photo" data-side="left"></div>
+                <div class="heart-photo" data-side="left"></div>
+                
+                <!-- Right side - Your photos -->
+                <div class="heart-photo" data-side="right"></div>
+                <div class="heart-photo" data-side="right"></div>
+                <div class="heart-photo" data-side="right"></div>
+                <div class="heart-photo" data-side="right"></div>
+                
+                <!-- Center Heart -->
+                <div class="center-heart-container">
+                    <div class="open-heart" onclick="openVault()">
+                        <div class="open-heart-ring"></div>
+                        <div class="open-heart-ring"></div>
+                        <div class="open-heart-ring"></div>
+                        <div class="open-heart-core">💜</div>
+                        <span class="open-heart-text">Open My Heart</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="timeline-section">
+            <div class="timeline-header" id="timeline-header">
+                <h2 class="timeline-title">Our Journey Through Time</h2>
+                <p class="timeline-subtitle">The beautiful story of us written in the stars</p>
+            </div>
+            <div class="timeline" id="timeline">
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">February 2025</div>
+                        <h3 class="timeline-heading">When We First Met</h3>
+                        <p class="timeline-text">It's funny how we went from awkwardly searching for things to say, to finding everything we needed in each other.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">22.11.25</div>
+                        <h3 class="timeline-heading">That Moment</h3>
+                        <p class="timeline-text">When I asked you out, we both knew the answer. But you wanted the moment to mean something. It was unforgettable.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">06.12.25</div>
+                        <h3 class="timeline-heading">The Special Day</h3>
+                        <p class="timeline-text">You said you'd make it special — and you did. Every moment felt like love finding its way home.</p>
+                    </div>
+                </div>
+                <div class="timeline-node">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">14.02.25</div>
+                        <h3 class="timeline-heading">Today</h3>
+                        <p class="timeline-text">Valentine's Day feels different with you. This isn't just my love — it's ours. Something we both protect and grow.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-ending" id="timeline-ending">Our story continues... forever 💜</div>
+        </section>
+
+        <!-- Music -->
+        <div class="music-control" id="music-control">🎵</div>
+    </div>
+
+    <!-- Vault Modal -->
+    <div id="vault-overlay" onclick="if(event.target === this) closeVault()">
+        <div class="vault-container">
+            <button class="vault-close" onclick="closeVault()">✕</button>
+            <h2 class="vault-title">My Heart's Deepest Message</h2>
+            <p class="vault-message" id="vault-message"></p>
+        </div>
+    </div>
+
+    <!-- Photo Modal -->
+    <div id="photo-modal" onclick="if(event.target === this) closePhotoModal()">
+        <button class="photo-modal-close" onclick="closePhotoModal()">✕</button>
+        <div class="photo-modal-content">
+            <img class="photo-modal-img" id="photo-modal-img" src="" alt="Memory">
+            <div class="photo-modal-message">
+                <h3 id="photo-modal-title"></h3>
+                <p id="photo-modal-love"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio -->
+    <audio id="love-song" loop preload="auto">
+        <source src="Show me off.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        // ==================== ENHANCED THREE.JS GALAXY ====================
+        const canvas = document.getElementById('universe-canvas');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Softer, more romantic galaxy colors
+        const galaxyGeometry = new THREE.BufferGeometry();
+        const galaxyCount = 15000;
+        const posArray = new Float32Array(galaxyCount * 3);
+        const colorArray = new Float32Array(galaxyCount * 3);
+        const sizeArray = new Float32Array(galaxyCount);
+        
+        for(let i = 0; i < galaxyCount; i++) {
+            const i3 = i * 3;
+            const radius = Math.random() * 120;
+            const spinAngle = radius * 0.2;
+            const branchAngle = (i % 6) * ((Math.PI * 2) / 6);
+            
+            const randomX = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 8;
+            const randomY = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 5;
+            const randomZ = Math.pow(Math.random(), 3) * (Math.random() < 0.5 ? 1 : -1) * 8;
+
+            posArray[i3] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+            posArray[i3+1] = (Math.random() - 0.5) * 6 + randomY;
+            posArray[i3+2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+            // Romantic color palette
+            const mixedColor = new THREE.Color();
+            const colorMix = Math.random();
+            if (colorMix > 0.8) mixedColor.setHex(0xff8fa3);
+            else if (colorMix > 0.6) mixedColor.setHex(0xff6b8a);
+            else if (colorMix > 0.4) mixedColor.setHex(0xff2d95);
+            else if (colorMix > 0.2) mixedColor.setHex(0xb026ff);
+            else mixedColor.setHex(0xffb6c1);
+            
+            colorArray[i3] = mixedColor.r;
+            colorArray[i3+1] = mixedColor.g;
+            colorArray[i3+2] = mixedColor.b;
+            
+            sizeArray[i] = Math.random() * 0.35 + 0.08;
+        }
+        
+        galaxyGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        galaxyGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+        galaxyGeometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+        
+        const galaxyMaterial = new THREE.PointsMaterial({
+            size: 0.18,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.95,
+            blending: THREE.AdditiveBlending,
+            sizeAttenuation: true
+        });
+        
+        const galaxy = new THREE.Points(galaxyGeometry, galaxyMaterial);
+        scene.add(galaxy);
+        camera.position.z = 40;
+
+        // Mouse interaction
+        let mouseX = 0, mouseY = 0;
+        let targetX = 0, targetY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+            
+            galaxy.rotation.y += 0.0004;
+            galaxy.rotation.x += 0.0001;
+            
+            galaxy.rotation.x += (targetY * 0.3 - galaxy.rotation.x) * 0.05;
+            galaxy.rotation.y += (targetX * 0.3 - galaxy.rotation.y) * 0.05;
+            
+            const time = Date.now() * 0.001;
+            const pulse = 1 + Math.sin(time * 0.5) * 0.03;
+            galaxy.scale.set(pulse, pulse, pulse);
+            
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Shooting stars
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.top = Math.random() * 50 + '%';
+            star.style.left = '0';
+            star.style.animation = `shoot ${Math.random() * 2 + 2}s linear forwards`;
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 4000);
+        }
+        
+        setInterval(createShootingStar, 4000);
+
+        // Floating hearts
+        const heartSymbols = ['💜', '💖', '💕', '🌸', '✨', '💗'];
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 8 + 10) + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 18000);
+        }
+        
+        setInterval(createFloatingHeart, 2000);
+        for(let i = 0; i < 6; i++) createFloatingHeart();
+
+        // Timer hearts
+        function createTimerHeart() {
+            const container = document.getElementById('timer-hearts');
+            if (!container) return;
+            const heart = document.createElement('div');
+            heart.className = 'timer-heart';
+            heart.innerHTML = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.top = Math.random() * 100 + '%';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.animationDuration = (Math.random() * 5 + 6) + 's';
+            container.appendChild(heart);
+        }
+        for(let i = 0; i < 15; i++) createTimerHeart();
+
+        // ==================== BUTTON ====================
+        const btn = document.getElementById('explore-btn');
+        const sparksContainer = btn.querySelector('.rocket-sparks');
+        const loveSong = document.getElementById('love-song');
+        const musicControl = document.getElementById('music-control');
+        
+        // Create sparks
+        for (let i = 0; i < 15; i++) {
+            const spark = document.createElement('div');
+            spark.className = 'spark';
+            spark.style.left = (Math.random() * 100) + '%';
+            sparksContainer.appendChild(spark);
+        }
+
+        // Button hover
+        btn.addEventListener('mouseenter', () => {
+            const sparks = sparksContainer.querySelectorAll('.spark');
+            sparks.forEach((spark, i) => {
+                gsap.to(spark, {
+                    opacity: 1,
+                    y: -80 - Math.random() * 50,
+                    x: (Math.random() - 0.5) * 80,
+                    scale: 0,
+                    duration: 1,
+                    delay: i * 0.03,
+                    repeat: -1,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            const sparks = sparksContainer.querySelectorAll('.spark');
+            sparks.forEach(spark => {
+                gsap.killTweensOf(spark);
+                gsap.set(spark, { opacity: 0, y: 0, x: 0, scale: 1 });
+            });
+        });
+
+        // Button click
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            if (loveSong) {
+                loveSong.volume = 0.5;
+                loveSong.play().catch(e => {});
+            }
+            
+            btn.classList.add('blasting');
+            
+            setTimeout(() => {
+                document.getElementById('warp-overlay').classList.add('active');
+            }, 500);
+            
+            setTimeout(() => {
+                document.getElementById('intro-scene').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('warp-overlay').style.opacity = '0';
+                document.body.classList.remove('intro-active');
+                
+                initPhotos();
+                startLoveTimer();
+                initScrollAnimations();
+            }, 2000);
+        });
+
+        // Music
+        musicControl.addEventListener('click', () => {
+            if (loveSong.paused) {
+                loveSong.play();
+                musicControl.textContent = '🔊';
+            } else {
+                loveSong.pause();
+                musicControl.textContent = '🔇';
+            }
+        });
+
+        // GSAP entrance
+        gsap.from('.galaxy-title', { y: -100, opacity: 0, duration: 2, ease: "power3.out", delay: 0.5 });
+        gsap.from('.cosmic-subtitle', { y: 50, opacity: 0, duration: 2, ease: "power3.out", delay: 1 });
+        gsap.from('.launch-pad', { scale: 0, opacity: 0, duration: 1.5, ease: "elastic.out(1, 0.5)", delay: 1.5 });
+
+        // ==================== PHOTOS - HEART SHAPED ====================
+        const photoData = [
+            // Left side - Feranmi
+            { img: 'fer1.jpeg', title: 'My Angel', subtitle: 'Eternal Beauty', msg: 'The brightest star in my galaxy', love: 'Every moment with you is a gift I never take for granted' },
+            { img: 'Fer2.jpeg', title: 'My Queen', subtitle: 'Royal Grace', msg: 'Royalty in human form', love: 'You carry yourself with a grace that leaves me breathless' },
+            { img: 'fer3.jpeg', title: 'Beautiful', subtitle: 'Radiant Soul', msg: 'Beauty that transcends time', love: 'Your smile is the first thing I think of every morning' },
+            { img: 'fer4.jpeg', title: 'My World', subtitle: 'Center of All', msg: 'Everything revolves around you', love: 'You are the gravity that keeps my universe in balance' },
+            // Right side - You
+            { img: 'dy1.jpeg', title: 'My Heart', subtitle: 'Beating for You', msg: 'Forever intertwined', love: 'Two hearts, one rhythm, infinite love' },
+            { img: 'dy2.jpeg', title: 'Yours Truly', subtitle: 'Devoted Always', msg: 'My soul belongs to you', love: 'I am yours completely, today and every day' },
+            { img: 'dy3.jpeg', title: 'Forever Yours', subtitle: 'Locked In', msg: 'No key needed, I\'m already yours', love: 'No distance, no time, nothing could unlock what we share' },
+            { img: 'dy4.jpeg', title: 'Always', subtitle: 'Timeless Love', msg: 'Beyond forever and back', love: 'In this life and the next, my heart finds its way to you' }
+        ];
+
+        function initPhotos() {
+            const photos = document.querySelectorAll('.heart-photo');
+            
+            photos.forEach((photo, i) => {
+                if (i < photoData.length) {
+                    const data = photoData[i];
+                    photo.innerHTML = `
+                        <img src="${data.img}" alt="${data.title}" onerror="this.src='${data.img.replace('.jpeg', '.jpg')}'">
+                        <div class="heart-photo-label">
+                            <h3>${data.title}</h3>
+                            <p>${data.subtitle}</p>
+                        </div>
+                    `;
+                    photo.onclick = () => openPhotoModal(data);
+                }
+            });
+        }
+
+        // ==================== SCROLL ANIMATIONS ====================
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.2,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Love timer section
+            observer.observe(document.getElementById('love-timer-header'));
+            observer.observe(document.getElementById('love-timer-container'));
+            observer.observe(document.getElementById('love-timer-quote'));
+
+            // Gallery
+            document.querySelectorAll('.heart-photo').forEach((el, i) => {
+                setTimeout(() => el.classList.add('visible'), 500 + i * 150);
+            });
+            observer.observe(document.getElementById('gallery-header'));
+
+            // Timeline
+            observer.observe(document.getElementById('timeline-header'));
+            document.querySelectorAll('.timeline-node').forEach(el => observer.observe(el));
+            observer.observe(document.getElementById('timeline-ending'));
+        }
+
+        // ==================== VAULT ====================
+        const vaultMessageText = "They say love is better felt than explained. I used to question that — until you. Now I understand that some feelings are too real, too deep, and too rare to ever be fully captured in words. This is for the love we feel, even when language falls short. You are my today and all of my tomorrows. 💜";
+
+        function openVault() {
+            const overlay = document.getElementById('vault-overlay');
+            document.getElementById('vault-message').textContent = vaultMessageText;
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVault() {
+            const overlay = document.getElementById('vault-overlay');
+            overlay.classList.remove('active');
+            setTimeout(() => overlay.style.display = 'none', 300);
+            document.body.style.overflow = '';
+        }
+
+        // ==================== PHOTO MODAL ====================
+        function openPhotoModal(data) {
+            const modal = document.getElementById('photo-modal');
+            document.getElementById('photo-modal-img').src = data.img;
+            document.getElementById('photo-modal-title').textContent = data.msg;
+            document.getElementById('photo-modal-love').textContent = data.love;
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('active'), 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal() {
+            const modal = document.getElementById('photo-modal');
+            modal.classList.remove('active');
+            setTimeout(() => modal.style.display = 'none', 300);
+            document.body.style.overflow = '';
+        }
+
+        // ==================== LOVE TIMER ====================
+        function startLoveTimer() {
+            const startDate = new Date('December 6, 2024 00:00:00').getTime();
+            
+            function update() {
+                const now = new Date().getTime();
+                const diff = now - startDate;
+                
+                document.getElementById('love-days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('love-hours').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('love-minutes').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('love-seconds').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            }
+            
+            update();
+            setInterval(update, 1000);
+        }
+
+        // Global functions
+        window.openVault = openVault;
+        window.closeVault = closeVault;
+        window.openPhotoModal = openPhotoModal;
+        window.closePhotoModal = closePhotoModal;
+    </script>
+</body>
+</html>
